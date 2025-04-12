@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,402 +8,12 @@
     <!-- Simple CSS framework - no bloat -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.min.css" rel="stylesheet">
     <!-- Add highlight.js for code syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --font-family: monospace, monospace;
-            --primary: #0d6efd;
-            --primary-hover: #0b5ed7;
-            --spacing: 0.75rem;
-            --typography-spacing-vertical: 1rem;
-            --animation-timing: cubic-bezier(0.165, 0.84, 0.44, 1);
-            
-            /* Dark theme as default */
-            --bg-color: #1a1a1a;
-            --bg-card: #252525;
-            --text-color: #e0e0e0;
-            --text-muted: #aaaaaa;
-            --border-color: #444444;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            --header-bg: rgba(26, 26, 26, 0.95);
-        }
-        
-        /* Custom cursor */
-        body {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            line-height: 1.6;
-            cursor: default;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            box-sizing: border-box;
-            position: relative; /* Added for header positioning */
-        }
-        
-        /* For consistent padding/margin calculations */
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
-        
-        /* Text selection styling */
-        ::selection {
-            background: rgba(13, 110, 253, 0.25);
-            color: inherit;
-        }
-        
-        h1, h2, h3 {
-            font-weight: 700;
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Animated underline for headings */
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: var(--primary);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s var(--animation-timing);
-        }
-        
-        h2:hover::after {
-            transform: scaleX(1);
-        }
-        
-        /* Modified header to allow for fade-out/static options */
-        /* Container for alignment */
-        .container {
-            width: 100%;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        header {
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            position: fixed; /* Changed from sticky to fixed */
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--header-bg);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            height: 60px; /* Set explicit height for header */
-            width: calc(100% - 2rem); /* Account for body padding */
-            max-width: 1140px; /* Match the max-width of the container */
-        }
-        
-        header.fade-out {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-100%);
-        }
-        
-        header.scrolled {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        header nav ul {
-            padding: 0;
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            margin: 0;
-        }
-        
-        header nav a {
-            display: inline-block;
-            position: relative;
-            transition: color 0.3s ease;
-            color: var(--text-color);
-        }
-        
-        header nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: var(--primary);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-        
-        header nav a:hover::after {
-            transform-origin: left;
-            transform: scaleX(1);
-        }
-        
-        /* Added padding-top to main to account for fixed header */
-        main {
-            padding-top: 80px;
-        }
-        
-        section {
-            margin: 3rem 0;
-            scroll-margin-top: 5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s var(--animation-timing), 
-                        transform 0.6s var(--animation-timing);
-        }
-        
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Terminal styling enhancements */
-        .bg-dark {
-            background: #111111;
-            color: #fff;
-            padding: 2rem;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            font-family: monospace;
-            border: 1px solid #333;
-        }
-        
-        /* Terminal header bar */
-        .bg-dark::before {
-            content: '● ○ ○';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #333;
-            color: #ddd;
-            font-size: 14px;
-            padding: 5px 10px;
-            text-align: left;
-        }
-        
-        /* Add padding to account for terminal header */
-        .bg-dark > * {
-            margin-top: 20px;
-        }
-        
-        /* Terminal cursor blinking effect - positioned at bottom */
-        .terminal-prompt {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .terminal-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: var(--primary);
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
-            margin-left: 5px;
-            position: relative;
-            top: 1px;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        .grid-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .grid-list > article {
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 1.5rem;
-            transition: transform 0.4s var(--animation-timing), 
-                        box-shadow 0.4s var(--animation-timing),
-                        border-color 0.4s ease;
-            box-shadow: var(--card-shadow);
-            background-color: var(--bg-card);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .grid-list > article:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            border-color: rgba(13, 110, 253, 0.5);
-        }
-        
-        .grid-list > article::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 0;
-            background-color: var(--primary);
-            transition: height 0.4s var(--animation-timing);
-        }
-        
-        .grid-list > article:hover::before {
-            height: 100%;
-        }
-        
-        code {
-            background: #333333;
-            color: #ff79c6;
-            border-radius: 4px;
-            padding: 0.2rem 0.4rem;
-        }
-        
-        pre {
-            background: #111111;
-            color: #ddd;
-            padding: 1rem;
-            border-radius: 4px;
-            overflow-x: auto;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
-            position: relative;
-            font-family: monospace;
-            border: 1px solid #333;
-        }
-        
-        pre::before {
-            content: '$ ';
-            opacity: 0.5;
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-        }
-        
-        pre code {
-            background: transparent;
-            color: inherit;
-            padding: 0;
-            margin-left: 1rem;
-            display: block;
-        }
-        
-        .highlight {
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-        }
-        
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 1rem 0;
-            margin-top: 3rem;
-            font-size: 0.875rem;
-            opacity: 0.8;
-        }
-        
-        a {
-            text-decoration: none;
-            transition: color 0.3s ease;
-            position: relative;
-            color: var(--primary);
-        }
-        
-        a:hover {
-            color: var(--primary-hover);
-        }
-        
-        .tag {
-            display: inline-block;
-            background: #333333;
-            color: #e0e0e0;
-            border-radius: 3px;
-            padding: 0.2rem 0.4rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        
-        .tag:hover {
-            background-color: rgba(13, 110, 253, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .monospace {
-            font-family: monospace;
-        }
-        
-        .small-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        
-        .testimonial {
-            border-left: 3px solid var(--primary);
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            position: relative;
-            background-color: rgba(13, 110, 253, 0.1);
-            padding: 1.5rem;
-            border-radius: 0 4px 4px 0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .testimonial:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .testimonial::before {
-            content: '"';
-            position: absolute;
-            top: 0;
-            left: -0.5rem;
-            font-size: 3rem;
-            color: var(--primary);
-            opacity: 0.2;
-            line-height: 1;
-        }
-        
-        /* Terminal lines starting fade-in effect */
-        .bg-dark > p {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            margin: 0.5rem 0;
-        }
-        
-        /* Terminal line prompt styling */
-        .bg-dark > p::before {
-            content: '';
-            margin-right: 0.5rem;
-        }
-        
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777;
-        }
-        
-        /* Removed nav controls */
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
+        rel="stylesheet">
+    <!-- Custom styles -->
+    <link href="css/styles.css" rel="stylesheet">
 </head>
+
 <body>
     <header id="site-header">
         <div class="container">
@@ -411,13 +22,13 @@
                     <li><strong>iotix</strong></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="#approach">Approach</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    
+
     <main>
         <div class="container">
             <section id="home">
@@ -425,221 +36,190 @@
                     <h1><span class="typewriter-text">iotix</span> - OT & IoT Cyber Security</h1>
                     <p>> Operational Technology (OT) & Internet of Things (IoT) cyber security consultancy.</p>
                     <p>> Specialising in securing critical infrastructure and industrial environments.</p>
-                    <p>> Independent security researcher specialising in industrial control systems security.</p>
                     <p class="terminal-prompt"><span class="highlight monospace">$ whoami</span></p>
                     <p>> Independent security researcher specializing in industrial control systems security.</p>
                     <p>> Expertise in OT/IT convergence, vulnerability assessment, and secure architecture design.</p>
                     <p class="terminal-prompt">$ <span class="terminal-cursor"></span></p>
                 </div>
             </section>
-        
+
             <section id="about">
                 <h2>About</h2>
-                <div class="grid">
-                    <div>
-                        <p>iotix specializes in cyber security for operational technology environments where availability and safety are paramount. This includes industrial control systems, SCADA networks, IoT devices, manufacturing equipment, and critical infrastructure.</p>
-                        <p>With expertise spanning both IT and OT domains, iotix bridges the security gap between traditional information technology and industrial environments.</p>
-                        <p>iotix delivers tailored security solutions that respect operational realities while effectively addressing the unique security challenges of industrial systems. By combining deep OT knowledge with modern security expertise, we provide practical approaches that enhance protection without compromising critical operations.</p>
+                <div class="about-layout">
+                    <div class="profile-container">
+                        <img src="https://raw.githubusercontent.com/Jam0k/iotix-site/refs/heads/main/profile.jpeg"
+                            alt="Managing Director" class="profile-image">
+                        <h3 class="profile-name">James Mockford</h3>
+                        <p class="profile-title">Managing Director & OT Cyber Security Consultant</p>
+                        <a href="https://www.linkedin.com/in/jamesmockford/" target="_blank" class="linkedin-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="currentColor" class="linkedin-icon">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                            Connect on LinkedIn
+                        </a>
+                    </div>
+
+                    <div class="about-text">
+                        <p>iotix specialises in cyber security for operational technology environments where
+                            availability and safety are paramount. With over 7 years of experience spanning both IT and
+                            OT domains, the consultancy brings focused expertise to industrial control systems, SCADA
+                            networks, IoT devices, and critical infrastructure.</p>
+                        <p>The consultancy's core strength lies in developing robust security architectures that
+                            effectively bridge traditional IT systems with industrial operational technology. This
+                            includes security assessments, technology evaluation, implementation services, and
+                            architectural design that respects operational constraints.</p>
+                        <p>Whether you're looking to evaluate security solutions, implement protective measures, or
+                            develop a comprehensive OT security programme, iotix delivers practical expertise that
+                            enhances your security posture without compromising critical operations.</p>
                     </div>
                 </div>
             </section>
-        
+
             <section id="services">
                 <h2>Services</h2>
-                <div class="grid-list">
-                <article>
-                    <h3>OT Architecture Review</h3>
-                    <div class="tags">
-                        <span class="tag">Network Segmentation</span>
-                        <span class="tag">Defense-in-Depth</span>
+
+                <div class="services-container">
+                    <!-- Left side menu -->
+                    <div class="services-menu">
+                        <button class="menu-btn active" data-filter="all">All Services</button>
+                        <button class="menu-btn" data-filter="assessment">Assessment</button>
+                        <button class="menu-btn" data-filter="implementation">Implementation</button>
+                        <button class="menu-btn" data-filter="development">Development</button>
                     </div>
-                    <p>Security architecture analysis for OT environments with minimal disruption to operations.</p>
-                    <pre><code>$ nmap -sn 10.0.1.0/24
-Starting Nmap...
-Discovered open port 502/tcp on 10.0.1.12
-Discovered open port 20000/tcp on 10.0.1.15
-Discovered open port 44818/tcp on 10.0.1.22</code></pre>
-                </article>
-                
-                <article>
-                    <h3>Protocol Analysis</h3>
-                    <div class="tags">
-                        <span class="tag">Modbus</span>
-                        <span class="tag">DNP3</span>
-                        <span class="tag">EtherNet/IP</span>
-                        <span class="tag">Profinet</span>
+
+                    <!-- Right side grid -->
+                    <div class="services-grid">
+                        <article class="service-item" data-category="assessment">
+                            <h3>OT Security Assessment</h3>
+                            <div class="tags">
+                                <span class="tag">Network Segmentation</span>
+                                <span class="tag">Defence-in-Depth</span>
+                                <span class="tag">Vulnerability Management</span>
+                            </div>
+                            <p>Comprehensive security assessment of OT environments with practical remediation
+                                strategies that respect operational constraints.</p>
+                        </article>
+
+                        <article class="service-item" data-category="assessment">
+                            <h3>Compliance & Standards</h3>
+                            <div class="tags">
+                                <span class="tag">IEC 62443</span>
+                                <span class="tag">NIS2</span>
+                                <span class="tag">NIST 800-82</span>
+                            </div>
+                            <p>Implementation of industrial security standards and regulatory frameworks with practical,
+                                risk-based approaches tailored to your operational environment.</p>
+                        </article>
+
+                        <article class="service-item" data-category="assessment">
+                            <h3>Penetration Testing</h3>
+                            <div class="tags">
+                                <span class="tag">OT-Safe Testing</span>
+                                <span class="tag">Protocol Analysis</span>
+                                <span class="tag">Remediation Guidance</span>
+                            </div>
+                            <p>Specialised penetration testing of industrial environments that identifies
+                                vulnerabilities while ensuring operational safety and continuity.</p>
+                        </article>
+
+                        <article class="service-item" data-category="implementation">
+                            <h3>Claroty Implementation</h3>
+                            <div class="tags">
+                                <span class="tag">Platform Design</span>
+                                <span class="tag">Custom Monitoring</span>
+                                <span class="tag">Alert Tuning</span>
+                            </div>
+                            <p>Expert deployment and optimisation of Claroty OT security monitoring solutions, including
+                                custom alerting and integration with SOC workflows.</p>
+                        </article>
+
+                        <article class="service-item" data-category="implementation">
+                            <h3>OT/IT Convergence</h3>
+                            <div class="tags">
+                                <span class="tag">Secure Architecture</span>
+                                <span class="tag">Data Diodes</span>
+                                <span class="tag">DMZs</span>
+                            </div>
+                            <p>Designing secure interfaces between industrial systems and enterprise IT/cloud
+                                environments that maintain operational integrity while enabling business innovation.</p>
+                        </article>
+
+
+                        <article class="service-item" data-category="implementation">
+                            <h3>Security Monitoring</h3>
+                            <div class="tags">
+                                <span class="tag">SIEM Implementation</span>
+                                <span class="tag">Custom Dashboards</span>
+                                <span class="tag">Response Playbooks</span>
+                            </div>
+                            <p>Design and implementation of security monitoring solutions that bridge IT and OT,
+                                including Microsoft Sentinel deployments and custom executive dashboards.</p>
+                        </article>
+
+                        <article class="service-item" data-category="implementation">
+                            <h3>OT Incident Response</h3>
+                            <div class="tags">
+                                <span class="tag">Response Planning</span>
+                                <span class="tag">Tabletop Exercises</span>
+                                <span class="tag">Recovery Procedures</span>
+                            </div>
+                            <p>Development of OT-specific incident response plans, playbooks, and procedures that
+                                balance security requirements with operational continuity needs.</p>
+                        </article>
+
+                        <article class="service-item" data-category="development">
+                            <h3>Industrial Testbed Design</h3>
+                            <div class="tags">
+                                <span class="tag">Lab Architecture</span>
+                                <span class="tag">Attack Simulation</span>
+                                <span class="tag">Product Validation</span>
+                            </div>
+                            <p>Design and implementation of comprehensive ICS testbed environments for security testing,
+                                product validation, and staff training purposes.</p>
+                        </article>
+
+                        <article class="service-item" data-category="development">
+                            <h3>Security Automation</h3>
+                            <div class="tags">
+                                <span class="tag">Python Development</span>
+                                <span class="tag">API Integration</span>
+                                <span class="tag">Custom Reporting</span>
+                            </div>
+                            <p>Custom security automation solutions that enhance visibility, streamline operations, and
+                                provide actionable intelligence for both technical and executive audiences.</p>
+                        </article>
                     </div>
-                    <p>Deep packet inspection of industrial protocols to identify security weaknesses and unintended information exposure.</p>
-                </article>
-                
-                <article>
-                    <h3>Secure Integration</h3>
-                    <div class="tags">
-                        <span class="tag">OT/IT Boundaries</span>
-                        <span class="tag">Data Diodes</span>
-                        <span class="tag">DMZs</span>
-                    </div>
-                    <p>Designing secure data flows between OT systems and IT/cloud environments without compromising operational integrity.</p>
-                </article>
-                
-                <article>
-                    <h3>Compliance Mapping</h3>
-                    <div class="tags">
-                        <span class="tag">IEC 62443</span>
-                        <span class="tag">NIST 800-82</span>
-                        <span class="tag">NERC CIP</span>
-                    </div>
-                    <p>Mapping technical controls to regulatory requirements in critical infrastructure environments.</p>
-                </article>
-                
-                <article>
-                    <h3>Technical Testing</h3>
-                    <div class="tags">
-                        <span class="tag">Protocol Fuzzing</span>
-                        <span class="tag">Safety-Aware Testing</span>
-                    </div>
-                    <p>Limited-scope security testing of OT components in test environments to identify vulnerabilities before exploitation.</p>
-                </article>
-                
-                <article>
-                    <h3>Incident Response</h3>
-                    <div class="tags">
-                        <span class="tag">Forensics</span>
-                        <span class="tag">Root Cause</span>
-                        <span class="tag">Containment</span>
-                    </div>
-                    <p>Specialized incident response for OT security events that prioritizes safety and operational continuity.</p>
-                </article>
-            </div>
-        </section>
-        
-            <section id="approach">
-                <h2>Approach</h2>
-                <p>iotix employs a pragmatic methodology focused on operational requirements:</p>
-            <pre><code>function evaluateControl(control, environment) {
-  // Security must never compromise safety
-  if (control.impactsSafety) return false;
-  
-  // Availability takes precedence in OT
-  if (control.impactsAvailability > environment.acceptableDowntime) 
-    return false;
-    
-  // Balance risk reduction against operational impact
-  let costBenefitRatio = control.riskReduction / control.operationalImpact;
-  
-  return costBenefitRatio > environment.threshold;
-}</code></pre>
-            
-            <div class="grid">
-                <div>
-                    <p>Security solutions are tailored to each environment's constraints and operational realities rather than attempting to impose IT-centric frameworks.</p>
-                    <p>The focus is on practical improvements with measurable risk reduction, not checkbox compliance.</p>
                 </div>
-            </div>
-        </section>
-        
+            </section>
+
             <section id="contact">
                 <h2>Contact</h2>
                 <p>For security inquiries, contact iotix via:</p>
-            <ul>
-                <li>Email: <a href="mailto:james@iotix.com">james@iotix.com</a></li>
-                <li>Telephone: 07778024479</li>
-            </ul>
-            <p>PGP key available upon request.</p>
-            
-            <p class="small-text">Located in Bath, United Kingdom<br>
-            Available for both remote consultations and on-site assessments.</p>
-        </section>
+                <ul>
+                    <li>Email: <a href="mailto:james@iotix.com">james@iotix.com</a></li>
+                    <li><a href="https://www.linkedin.com/in/jamesmockford/" target="_blank">Connect on LinkedIn</a>
+                    </li>
+                </ul>
+                <p>PGP key available upon request.</p>
+
+                <p class="small-text">Located in Bath, United Kingdom.<br>
+                    Available for both remote consultations and on-site assessments.</p>
+            </section>
         </div> <!-- Close container -->
     </main>
-    
+
     <footer>
         <div class="container">
-            <p>&copy; 2025 iotix | <a href="#privacy">Privacy</a> | <a href="#pgp">PGP Key</a></p>
+            <p>&copy; 2025 iotix</p>
         </div>
     </footer>
 
-    <!-- Nav controls removed -->
-
-    <!-- JavaScript for animations and interactions -->
+    <!-- JavaScript libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Syntax highlighting for code blocks
-            document.querySelectorAll('pre code').forEach(block => {
-                hljs.highlightElement(block);
-            });
-            
-            // Animate sections as they come into view
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
-            });
-            
-            // Variables for nav behavior
-            const header = document.querySelector('header');
-            let lastScrollY = window.scrollY;
-            
-            // Nav behavior set to fade mode only
-            navMode = 'fade';
-            
-            // Scroll event listener for nav behavior
-            window.addEventListener('scroll', () => {
-                // Add shadow on scroll regardless of mode
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-                
-                // Handle fade behavior
-                // Scrolling down - hide the navbar
-                if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                    header.classList.add('fade-out');
-                } 
-                // Scrolling up - show the navbar
-                else if (window.scrollY < lastScrollY) {
-                    header.classList.remove('fade-out');
-                }
-                
-                lastScrollY = window.scrollY;
-            });
-            
-            // Add smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Add typing effect to each terminal line with a delay
-            const terminalLines = document.querySelectorAll('.bg-dark > p');
-            
-            let lineDelay = 500;
-            terminalLines.forEach((line, index) => {
-                setTimeout(() => {
-                    line.style.opacity = '1';
-                }, lineDelay * (index + 1));
-            });
-        });
-    </script>
+    <!-- Custom scripts -->
+    <script src="js/main.js"></script>
 </body>
+
 </html>

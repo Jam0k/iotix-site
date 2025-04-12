@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iotix Brand Examples</title>
+    <style>
+        :root {
+            --primary-blue: #0d6efd;
+            --hover-blue: #0b5ed7;
+            --dark-bg: #1a1a1a;
+            --terminal-dark: #111111;
+            --card-bg: #111a27;
+            --light-text: #e0e0e0;
+            --muted-text: #aaaaaa;
+            --border-gray: #444444;
+            --tag-bg: #1e2a3a;
+            --success-green: #28a745;
+            --warning-amber: #ffc107;
+            --alert-red: #dc3545;
+        }
+        
+        body {
+            font-family: monospace;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        
+        h2 {
+            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 5px;
+            display: inline-block;
+            margin-top: 40px;
+        }
+        
+        /* Business card */
+        .business-card {
+            width: 350px;
+            height: 200px;
+            background-color: var(--terminal-dark);
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+        }
+        
+        .business-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--primary-blue);
+        }
+        
+        .business-card .logo {
+            font-size: 24px;
+            color: var(--light-text);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .business-card .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 20px;
+            background-color: var(--primary-blue);
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .business-card .tagline {
+            color: var(--muted-text);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .business-card .name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .business-card .title {
+            color: var(--muted-text);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .business-card .contact {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        /* Email signature */
+        .email-signature {
+            padding: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-gray);
+            width: 400px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+        }
+        
+        .email-signature .name {
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .email-signature .title {
+            color: var(--muted-text);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .email-signature .company {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .email-signature .contact-info {
+            color: var(--muted-text);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Report header */
+        .report-header {
+            background-color: var(--terminal-dark);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-blue);
+            margin-bottom: 40px;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .report-header .logo-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .report-header .report-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        /* Invoice */
+        .invoice {
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            border: 1px solid var(--border-gray);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .invoice-header {
+            background-color: var(--terminal-dark);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .invoice-header .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .invoice-header .details {
+            text-align: right;
+            color: var(--muted-text);
+        }
+        
+        .invoice-client {
+            padding: 20px;
+            border-top: 1px solid var(--border-gray);
+            border-bottom: 1px solid var(--border-gray);
+        }
+        
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .invoice-table th {
+            background-color: var(--tag-bg);
+            text-align: left;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        
+        .invoice-table td {
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        
+        .invoice-table .amount {
+            text-align: right;
+        }
+        
+        .invoice-totals {
+            padding: 20px;
+            text-align: right;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--hover-blue);
+        }
+        
+        .btn-secondary {
+            background-color: var(--terminal-dark);
+            color: white;
+            border: 1px solid var(--primary-blue);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        /* Colors palette */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .color-swatch {
+            height: 100px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .color-info {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        /* Typography */
+        .typography-sample {
+            margin-bottom: 40px;
+        }
+        
+        .type-heading {
+            margin-bottom: 20px;
+        }
+        
+        .font-regular {
+            font-weight: 400;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        /* Report section */
+        .report-section {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            color: var(--light-text);
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .severity {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .severity.critical {
+            background-color: var(--alert-red);
+            color: white;
+        }
+        
+        .severity.high {
+            background-color: var(--warning-amber);
+            color: black;
+        }
+        
+        .severity.medium {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .severity.low {
+            background-color: var(--success-green);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>iotix Brand Visual Examples</h1>
+        <p>This page showcases examples of the iotix brand applied to various materials.</p>
+        
+        <h2>Color Palette</h2>
+        <div class="color-palette">
+            <div class="color-swatch" style="background-color: #0d6efd; color: white;">
+                <div class="color-info">
+                    Primary Blue<br>
+                    #0d6efd
+                </div>
+            </div>
+            <div class="color-swatch" style="background-color: #1a1a1a; color: white;">
+                <div class="color-info">
+                    Dark Background<br>
+                    #1a1a1a
+                </div>
+            </div>
+            <div class="color-swatch" style="background-color: #111111; color: white;">
+                <div class="color-info">
+                    Terminal Dark<br>
+                    #111111
+                </div>
+            </div>
+            <div class="color-swatch" style="background-color: #111a27; color: white;">
+                <div class="color-info">
+                    Card Background<br>
+                    #111a27
+                </div>
+            </div>
+            <div class="color-swatch" style="background-color: #e0e0e0; color: black;">
+                <div class="color-info">
+                    Light Text<br>
+                    #e0e0e0
+                </div>
+            </div>
+            <div class="color-swatch" style="background-color: #aaaaaa; color: black;">
+                <div class="color-info">
+                    Muted Text<br>
+                    #aaaaaa
+                </div>
+            </div>
+        </div>
+        
+        <h2>Typography</h2>
+        <div class="typography-sample">
+            <div class="type-heading">
+                <h3>Monospace Font Family</h3>
+            </div>
+            <p class="font-regular">Regular (400): Primary text for body content and general information.</p>
+            <p class="font-semibold">Semibold (600): Used for subtitles, emphasis, and secondary headings.</p>
+            <p class="font-bold">Bold (700): Used for main headings and important callouts.</p>
+        </div>
+        
+        <h2>Business Card</h2>
+        <div class="business-card">
+            <div class="logo">iotix<span class="cursor"></span></div>
+            <div class="tagline">OT & IoT Cyber Security</div>
+            <div class="name">James Mockford</div>
+            <div class="title">Managing Director & OT Cyber Security Consultant</div>
+            <div class="contact">
+                james@iotix.com<br>
+                +44 7778 024479<br>
+                Bath, United Kingdom
+            </div>
+        </div>
+        
+        <h2>Email Signature</h2>
+        <div class="email-signature">
+            <div class="name">James Mockford</div>
+            <div class="title">Managing Director & OT Cyber Security Consultant</div>
+            <div class="company">
+                <span>iotix</span><span class="cursor"></span><br>
+                <span style="font-size: 14px; color: var(--muted-text);">OT & IoT Cyber Security</span>
+            </div>
+            <div class="contact-info">
+                E: james@iotix.com<br>
+                P: +44 7778 024479<br>
+                W: www.iotix.com<br><br>
+                Bath, United Kingdom
+            </div>
+        </div>
+        
+        <h2>Report Header</h2>
+        <div class="report-header">
+            <div class="logo-container">
+                <div class="logo">iotix<span class="cursor"></span></div>
+                <div style="font-size: 14px; color: var(--muted-text);">OT & IoT Cyber Security</div>
+            </div>
+            <div class="report-title">SECURITY ASSESSMENT REPORT</div>
+        </div>
+        
+        <h2>Invoice</h2>
+        <div class="invoice">
+            <div class="invoice-header">
+                <div>
+                    <div class="logo">iotix<span class="cursor"></span></div>
+                    <div style="font-size: 14px; color: var(--muted-text); margin-bottom: 20px;">OT & IoT Cyber Security</div>
+                    <div style="font-size: 14px;">
+                        James Mockford<br>
+                        Bath, United Kingdom<br>
+                        james@iotix.com<br>
+                        +44 7778 024479
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="title">INVOICE</div>
+                    <div style="margin-top: 20px;">
+                        Invoice #: IOT-2025-0042<br>
+                        Date: 15 May 2025<br>
+                        Due: 14 June 2025
+                    </div>
+                </div>
+            </div>
+            
+            <div class="invoice-client">
+                <strong>BILL TO:</strong><br>
+                Client Name<br>
+                Company Name<br>
+                Address<br>
+                Email
+            </div>
+            
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60%;">DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>RATE</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OT Security Assessment</td>
+                        <td>2</td>
+                        <td>£1,200</td>
+                        <td class="amount">£2,400</td>
+                    </tr>
+                    <tr>
+                        <td>Claroty Implementation Support</td>
+                        <td>4</td>
+                        <td>£1,000</td>
+                        <td class="amount">£4,000</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="invoice-totals">
+                <div>SUBTOTAL: £6,400</div>
+                <div>VAT (20%): £1,280</div>
+                <div style="font-weight: 700; margin-top: 10px;">TOTAL: £7,680</div>
+            </div>
+        </div>
+        
+        <h2>Button Styles</h2>
+        <div class="buttons-container">
+            <a href="#" class="btn btn-primary">GET QUOTE</a>
+            <a href="#" class="btn btn-secondary">CONTACT</a>
+        </div>
+        
+        <h2>Report Section</h2>
+        <div class="report-section">
+            <div class="section-title">4.2 Vulnerability Assessment Results</div>
+            
+            <p>The vulnerability assessment identified several potential security issues within 
+            the industrial control network. Most critical findings relate to:</p>
+            
+            <ul>
+                <li>Unsecured protocol usage between SCADA and field devices</li>
+                <li>Outdated firmware on PLCs in production area</li>
+                <li>Inadequate network segmentation between IT and OT environments</li>
+                <li>Default credentials on engineering workstations</li>
+            </ul>
+            
+            <p>Recommendation severity is coded as follows:</p>
+            
+            <p>
+                <span class="severity critical">CRITICAL</span> Requires immediate remediation<br>
+                <span class="severity high">HIGH</span> Should be addressed within 30 days<br>
+                <span class="severity medium">MEDIUM</span> Should be addressed within 90 days<br>
+                <span class="severity low">LOW</span> Should be addressed within planning cycle
+            </p>
+        </div>
+    </div>
+</body>
+</html>
